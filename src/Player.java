@@ -9,17 +9,12 @@ public class Player {
     public boolean isAlive;
     private String name;
 
-    public Player() {
-    }
-
-
-    Player(String name){
+    Player(){
         this.lvl = 0;
         this.hp = 100;
         this.maxHp = 100;
         this.exp = 0;
         this.isAlive = true;
-        this.name = name;
         this.str = 10;
         this.def = 5;
         this.gold = 0;

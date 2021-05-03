@@ -8,12 +8,12 @@ public class Main {
     private static String msg;
     private static final Scanner sc = new Scanner(System.in);
     private static final Random rand = new Random();
-    private static final Monster dragon = new Monster(13);
+    private static final Monster dragon = new Monster();
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Салют всем кто проверяет этот код. Думаю ты знаешь что произойдет дальше. ");
         System.out.println("Введите имя персонажа");
-        Player player = new Player(sc.nextLine());
+        Player player = new Player();
         while (player.isAlive) {
             lines();
             System.out.println("Приветствую тебя, " + player.getName() + ". Чего делаем?(введите цифру)");
@@ -106,7 +106,7 @@ public class Main {
     }
 
     static void fight(Player player) throws InterruptedException {
-        Monster monster = new Monster(player.getLvl());//создаем монстра для битвы в соответствии с уровнем игрока
+        Monster monster = new Monster();//создаем монстра для битвы в соответствии с уровнем игрока
         while (true){
             if (player.getStr() >= monster.getDef()) {//если игрок сильнее чем защита монстра то он наносит урон. если нет - урона нет
                 if (rand.nextInt(4) == 0) {//если вдруг удар критический то наносится двойной урон
