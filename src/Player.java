@@ -7,7 +7,6 @@ public class Player {
     private int str;
     private int def;
     public boolean isAlive;
-    private String name;
 
     Player(){
         this.lvl = 0;
@@ -24,13 +23,11 @@ public class Player {
     public void giveExp(Player player, int exp) {//даем экспы и если экспы больше 1000 то вычитается 1000 из экспы и добавляется уровень
         this.exp += exp;
         if (this.exp >= 1000){
-            this.exp -= 1000;
             giveLvl(player);
         }
     }
     private void giveLvl(Player player){
         this.lvl += 1;
-        Main.lvlUp(player);//отправляем выводить сообщения и повышать характеристики
     }
 
     //большая куча геттеров, сеттеров и гивверов
@@ -45,10 +42,8 @@ public class Player {
     public void giveHp(int hp) {
         this.hp += hp;
         if (this.hp > this.maxHp) this.hp = this.maxHp;
-        if (this.hp <= 0) this.isAlive = false;
     }
     public void giveMaxHp(int hp) {this.maxHp += hp;}
-    public void setHp(int hp) {this.maxHp = hp;}
     public void giveStr(int str) {
         this.str += str;
     }
@@ -69,9 +64,6 @@ public class Player {
     }
     public int getDef() {
         return def;
-    }
-    public String getName() {
-        return name;
     }
     public int getExp() {
         return exp;
