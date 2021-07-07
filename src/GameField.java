@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.Random;
 
 
@@ -17,7 +18,6 @@ public class GameField extends JPanel implements ActionListener {
     private final int DOT_SIZE = 16;
     private final int ALL_DOTS = 400;
     private Image dot;
-    private Image apple;
     private Image field;
     private Image monster1;
     private Image shop;
@@ -26,7 +26,6 @@ public class GameField extends JPanel implements ActionListener {
     private int monsterY;
     private final int[] x = new int[ALL_DOTS];
     private final int[] y = new int[ALL_DOTS];
-    ImageIcon iia = new ImageIcon("test1.gif");
     ImageIcon iid = new ImageIcon("dot.png");
     ImageIcon fia = new ImageIcon("field.png");
     ImageIcon fia2 = new ImageIcon("monster.png");
@@ -57,7 +56,6 @@ public class GameField extends JPanel implements ActionListener {
     }
 
     public void loadImages() {
-        apple = iia.getImage();
         dot = iid.getImage();
         field = fia.getImage();
         monster1 = fia2.getImage();
@@ -74,13 +72,13 @@ public class GameField extends JPanel implements ActionListener {
             g.drawImage(princess, 272 - 4 * DOT_SIZE, 176 - 3 * DOT_SIZE, this);
             g.drawImage(dot, x[0], y[0] - 16, this);
             g.setColor(Color.white);
-            g.drawString("x: " + x[0] + " ," + "y: " + y[0], 0, 224);
-            g.drawString("Gold: " + player.getGold(), 0, 240);
-            g.drawString("Hp: " + player.getHp() + "/" + player.getMaxHp(), 0, 256);
-            g.drawString("Exp: " + player.getExp(), 0, 272);
-            g.drawString("lvl: " + player.getLvl(), 0, 288);
-            g.drawString("STR: " + player.getStr(), 0, 304);
-            g.drawString("DEF: " + player.getDef(), 0, 320);
+            //g.drawString("x: " + x[0] + " ," + "y: " + y[0], 0, 224);
+            g.drawString("Gold: " + player.getGold(), 0, 318);
+            g.drawString("Hp: " + player.getHp() + "/" + player.getMaxHp(), 64, 318);
+            g.drawString("Exp: " + player.getExp(), 137, 318);
+            g.drawString("lvl: " + player.getLvl(), 192, 318);
+            g.drawString("STR: " + player.getStr(), 224, 318);
+            g.drawString("DEF: " + player.getDef(), 272, 318);
             g.drawImage(monster1, monsterX, monsterY - 16, this);
             g.drawString("HP: 132", 272, 208);
             g.drawString("HP: " + monster.getHp(), monsterX, monsterY + 16);
@@ -112,6 +110,12 @@ public class GameField extends JPanel implements ActionListener {
         if (status == 5) {
             g.drawString("YOU WIN!", 64, 176);
         }
+        if (status == 6) {
+            g.setColor(Color.WHITE);
+            g.drawString("1.Сохранить", 32, 176);
+            g.drawString("2.Загрузить", 32, 192);
+            g.drawString("3.Отмена", 32, 208);
+        }
     }
 
     public void move(int i){
@@ -126,23 +130,17 @@ public class GameField extends JPanel implements ActionListener {
             y[0] += DOT_SIZE;
         }
         if (x[0] == 208 && y[0] == 176){//дракон
-
             createMonster(208, 176);
-            System.out.println("monster created");
             monster.setlvl(16);
-            System.out.println("lvl has set");
             try {
                 fight(player);
-                System.out.println("fight is done");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (isAlive) {
                 status = 5;
             }
-            System.out.println("status has set");
             pressed();
-            System.out.println("pressed has done");
             createMonster(new Random().nextInt(18)*DOT_SIZE, ((new Random().nextInt(4))+1) * DOT_SIZE);
         }
         if (x[0] == monsterX && y[0] == monsterY){//монстр
@@ -156,7 +154,6 @@ public class GameField extends JPanel implements ActionListener {
         }
         if (x[0] == 32 && y[0] == 176){//магазин
             status = 2;
-            //shop(player);
         }
 
     }
@@ -201,6 +198,10 @@ public class GameField extends JPanel implements ActionListener {
                     if (!(y[0] == 80 || y[0] == 304)) {
                         movement(4);
                     }
+                }
+                if (key == KeyEvent.VK_ESCAPE) {
+                    status = 6;
+                    pressed();
                 }
             } //поле
             if (status == 2) {
@@ -264,6 +265,23 @@ public class GameField extends JPanel implements ActionListener {
                     exitShop();
                 }
             } //lvlup
+                if (status == 6) {//сохранить
+                if (key == KeyEvent.VK_NUMPAD1) {
+                    try {
+                        MainWindow.save(player);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    exitShop();
+                }
+                if (key == KeyEvent.VK_NUMPAD2) {
+                    MainWindow.load(player);
+                    exitShop();
+                }
+                if (key == KeyEvent.VK_NUMPAD3) {
+                    exitShop();
+                }
+            } //lvlup
         }
     }
         public void exitShop(){
@@ -288,16 +306,13 @@ public class GameField extends JPanel implements ActionListener {
             }
             if (!monster.isAlive) {
                 player.giveExp(player, 500);
-                System.out.println("1");
                 newLvl();
-                System.out.println("2");
                 player.giveGold(100);
                 break;
             }
             if (monster.getStr() > player.getDef()/2) {
                 player.giveHp((monster.getStr() - player.getDef()/2)*-1);
             }
-
             if (player.getHp() < 1) {
                 status = 3;
                 isAlive = false;

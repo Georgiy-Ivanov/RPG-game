@@ -34,11 +34,9 @@ public class Player {
     public int getGold() {
         return gold;
     }
-
     public void giveGold(int gold) {
         this.gold += gold;
     }
-
     public void giveHp(int hp) {
         this.hp += hp;
         if (this.hp > this.maxHp) this.hp = this.maxHp;
@@ -68,4 +66,12 @@ public class Player {
     public int getExp() {
         return exp;
     }
+    public void setMaxHp(int hp) {this.maxHp = hp;}
+    public void setHp(int hp) {this.hp = hp;}
+    public void setLvl(int lvl) {this.lvl = lvl;}
+    public void setStr(int str) {this.str = str;}
+    public void setDef(int def) {this.def = def;}
+    public void setExp(int exp) {this.exp = exp;}
+    public void setGold(int gold) {this.gold = gold;}
+
 }
