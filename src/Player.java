@@ -6,6 +6,8 @@ public class Player {
     private int gold;
     private int str;
     private int def;
+    private static boolean hasSword;
+    private static boolean hasShield;
     public boolean isAlive;
 
     Player(){
@@ -17,6 +19,9 @@ public class Player {
         this.str = 10;
         this.def = 5;
         this.gold = 0;
+        this.hasSword = false;
+        this.hasShield = false;
+
     }
 
 
@@ -66,6 +71,8 @@ public class Player {
     public int getExp() {
         return exp;
     }
+    public boolean getHasSword() {return hasSword;}
+    public boolean getHasShield() {return hasShield;}
     public void setMaxHp(int hp) {this.maxHp = hp;}
     public void setHp(int hp) {this.hp = hp;}
     public void setLvl(int lvl) {this.lvl = lvl;}
@@ -73,5 +80,7 @@ public class Player {
     public void setDef(int def) {this.def = def;}
     public void setExp(int exp) {this.exp = exp;}
     public void setGold(int gold) {this.gold = gold;}
+    public void setHasSword(Boolean hasSword) {this.hasSword = hasSword;}
+    public void setHasShield(Boolean hasShield) {this.hasShield = hasShield;}
 
 }

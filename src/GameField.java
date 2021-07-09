@@ -13,8 +13,7 @@ public class GameField extends JPanel implements ActionListener {
     public static boolean isAlive = true;
     private static final Random rand = new Random();
     private static final Monster monster = new Monster();
-    private static boolean hasSword = false;
-    private static boolean hasShield = false;
+
     private final int DOT_SIZE = 16;
     private final int ALL_DOTS = 400;
     private Image dot;
@@ -88,10 +87,10 @@ public class GameField extends JPanel implements ActionListener {
             g.drawString("Ваше золото:" + player.getGold(), 32, 160);
             g.drawString("1.50 золота: Баночку хп(восстанавливает HP)", 32, 176);
             g.drawString("2.50 золота: Баночку опыта(дает 100 опыта)", 32, 192);
-            if (!hasSword) {
+            if (!player.getHasSword()) {
                 g.drawString("3.125 золота: Меч(+ 50 к атаке)", 32, 208);
             }
-            if (!hasShield) {
+            if (!player.getHasShield()) {
                 g.drawString("4.125 золота: Щит(+25 к броне)", 32, 224);
             }
             g.drawString("5.Выйти", 32, 240);
@@ -226,19 +225,18 @@ public class GameField extends JPanel implements ActionListener {
                 }
                 if (key == KeyEvent.VK_NUMPAD3) {
 
-                    if (player.getGold() >= 125 && !hasSword) {
+                    if (player.getGold() >= 125 && !player.getHasSword()) {
                         player.giveGold(-125);
-                        hasSword = true;
+                        player.setHasSword(true);
                         player.giveStr(50);
                         pressed();
                     }
 
                 }
                 if (key == KeyEvent.VK_NUMPAD4) {
-
-                    if (player.getGold() >= 125 && !hasShield) {
+                    if (player.getGold() >= 125 && !player.getHasShield()) {
                         player.giveGold(-125);
-                        hasShield = true;
+                        player.setHasShield(true);
                         player.giveDef(25);
                         pressed();
                     }

@@ -19,7 +19,15 @@ public class MainWindow extends JFrame {
     }
     public static void save(Player player) throws IOException {
         Writer writer = new FileWriter("save.txt");
-        String sv = player.getHp() + "s" + player.getMaxHp() + "s" + player.getLvl() + "s" + player.getStr() + "s" + player.getDef() + "s" + player.getExp() + "s" + player.getGold();
+        int shield = 0;
+        int sword = 0;
+        if (player.getHasSword()) {
+            sword = 1;
+        }
+        if (player.getHasShield()){
+            shield = 1;
+        }
+        String sv = player.getHp() + "s" + player.getMaxHp() + "s" + player.getLvl() + "s" + player.getStr() + "s" + player.getDef() + "s" + player.getExp() + "s" + player.getGold() + "s" + shield + "s" + sword;
         writer.write(sv);
         writer.close();
     }
@@ -35,7 +43,6 @@ public class MainWindow extends JFrame {
             String x1 = String.valueOf(buf);
             System.out.println(x1);
             String[] param = x1.split("s");
-            System.out.println(Integer.parseInt(param[0]));
             player.setHp(Integer.parseInt(param[0]));
             player.setMaxHp(Integer.parseInt(param[1]));
             player.setLvl(Integer.parseInt(param[2]));
@@ -43,6 +50,11 @@ public class MainWindow extends JFrame {
             player.setDef(Integer.parseInt(param[4]));
             player.setExp(Integer.parseInt(param[5]));
             player.setGold(Integer.parseInt(param[6]));
+            if (Integer.parseInt(param[7]) == 1){
+                player.setHasShield(true);
+            }if (Integer.parseInt(param[8]) == 1){
+                player.setHasSword(true);
+            }
 
 
 
