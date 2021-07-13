@@ -1,7 +1,12 @@
 import javax.swing.*;
 import java.io.*;
 import java.util.Arrays;
-
+/*
+ Краткий гайд:
+ MainWindow - Создание игрового поля, сохранение игры, загрузка игры.
+ GameField - Все веселье происходит там.
+ Monster и Player - думаю тут понятно.
+*/
 public class MainWindow extends JFrame {
 
 

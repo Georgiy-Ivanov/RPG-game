@@ -9,21 +9,21 @@ import java.util.Random;
 
 
 public class GameField extends JPanel implements ActionListener {
-    public static int status = 1;
-    public static boolean isAlive = true;
+    public static int status = 1; //переменная которая говорит какое поле игры отрисовывать в данный момент
+    public static boolean isAlive = true; //жив ли игрк, хотя думается нужно это перенести в другой класс
     private static final Random rand = new Random();
     private static final Monster monster = new Monster();
 
-    private final int DOT_SIZE = 16;
+    private final int DOT_SIZE = 16; //размеры клетки игровой клетки
     private final int ALL_DOTS = 400;
     private Image dot;
     private Image field;
     private Image monster1;
     private Image shop;
     private Image princess;
-    private int monsterX;
+    private int monsterX;//координаты монстра
     private int monsterY;
-    private final int[] x = new int[ALL_DOTS];
+    private final int[] x = new int[ALL_DOTS];//создаем массивы из игровых клеток
     private final int[] y = new int[ALL_DOTS];
     ImageIcon iid = new ImageIcon("dot.png");
     ImageIcon fia = new ImageIcon("field.png");
@@ -42,7 +42,7 @@ public class GameField extends JPanel implements ActionListener {
 
     }
 
-    public void initGame() {
+    public void initGame() {//помещаем игрока на игровое поле и сразу создаем монстра
         x[0] = 160;
         y[0] = 160;
         createMonster(new Random().nextInt(18) * DOT_SIZE, ((new Random().nextInt(4))+1) * DOT_SIZE);
@@ -63,7 +63,7 @@ public class GameField extends JPanel implements ActionListener {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {//отрисовка игровых полей в зависимости от значения переменной status
         super.paintComponent(g);
         if (status == 1) {//на улице
             g.drawImage(field, 0, 0, this);
@@ -73,6 +73,7 @@ public class GameField extends JPanel implements ActionListener {
             g.setColor(Color.white);
             //g.drawString("x: " + x[0] + " ," + "y: " + y[0], 0, 224);
             g.drawString("Gold: " + player.getGold(), 0, 318);
+            g.drawString("ESC: save / load", 0, 302);
             g.drawString("Hp: " + player.getHp() + "/" + player.getMaxHp(), 64, 318);
             g.drawString("Exp: " + player.getExp(), 137, 318);
             g.drawString("lvl: " + player.getLvl(), 192, 318);
@@ -109,7 +110,7 @@ public class GameField extends JPanel implements ActionListener {
         if (status == 5) {
             g.drawString("YOU WIN!", 64, 176);
         }
-        if (status == 6) {
+        if (status == 6) {//saveload
             g.setColor(Color.WHITE);
             g.drawString("1.Сохранить", 32, 176);
             g.drawString("2.Загрузить", 32, 192);
@@ -117,7 +118,7 @@ public class GameField extends JPanel implements ActionListener {
         }
     }
 
-    public void move(int i){
+    public void move(int i){//движение в зависимости от нажатой кнопки
         if(i == 1){
             x[0] -= DOT_SIZE;
         }
@@ -128,7 +129,7 @@ public class GameField extends JPanel implements ActionListener {
         } if(i == 4){
             y[0] += DOT_SIZE;
         }
-        if (x[0] == 208 && y[0] == 176){//дракон
+        if (x[0] == 208 && y[0] == 176){//событие если игрок встает на клетку дракона
             createMonster(208, 176);
             monster.setlvl(16);
             try {
@@ -142,7 +143,7 @@ public class GameField extends JPanel implements ActionListener {
             pressed();
             createMonster(new Random().nextInt(18)*DOT_SIZE, ((new Random().nextInt(4))+1) * DOT_SIZE);
         }
-        if (x[0] == monsterX && y[0] == monsterY){//монстр
+        if (x[0] == monsterX && y[0] == monsterY){//событие если игрок встает на клетку монстра
             try {
                 fight(player);
             } catch (InterruptedException e) {
