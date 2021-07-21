@@ -280,7 +280,7 @@ public class GameField extends JPanel implements ActionListener {
                 if (key == KeyEvent.VK_NUMPAD3) {
                     exitShop();
                 }
-            } //lvlup
+            }
         }
     }
         public void exitShop(){
